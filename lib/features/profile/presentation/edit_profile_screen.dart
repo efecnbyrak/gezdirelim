@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gezdirelim/core/app_colors.dart';
 import 'package:gezdirelim/features/profile/presentation/profile_provider.dart';
@@ -18,6 +18,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   late TextEditingController _emailController;
   late TextEditingController _bioController;
   late TextEditingController _cityController;
+  late TextEditingController _districtController;
 
   @override
   void initState() {
@@ -27,6 +28,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     _emailController = TextEditingController(text: profile.email);
     _bioController = TextEditingController(text: profile.bio);
     _cityController = TextEditingController(text: profile.city);
+    _districtController = TextEditingController(text: profile.district);
   }
 
   @override
@@ -35,6 +37,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     _emailController.dispose();
     _bioController.dispose();
     _cityController.dispose();
+    _districtController.dispose();
     super.dispose();
   }
 
@@ -73,6 +76,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             _buildInputSection('Hakkında', _bioController, LucideIcons.alignLeft, maxLines: 3),
             const SizedBox(height: 20),
             _buildInputSection('Şehir', _cityController, LucideIcons.mapPin),
+            const SizedBox(height: 20),
+            _buildInputSection('İlçe', _districtController, LucideIcons.mapPin),
 
             const SizedBox(height: 40),
 
@@ -251,6 +256,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       email: _emailController.text,
       bio: _bioController.text,
       city: _cityController.text,
+      district: _districtController.text,
     );
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

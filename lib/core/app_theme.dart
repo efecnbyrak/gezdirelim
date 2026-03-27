@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 
@@ -14,7 +14,7 @@ class AppTheme {
         surface: AppColors.surface,
         error: AppColors.mercanKirmizi,
       ),
-      textTheme: GoogleFonts.interTextTheme(
+      textTheme: GoogleFonts.outfitTextTheme(
         const TextTheme(
           displayLarge: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold),
           displayMedium: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold),
@@ -27,15 +27,19 @@ class AppTheme {
           bodySmall: TextStyle(color: AppColors.textSecondary),
           labelLarge: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.w600),
         ),
+      ).copyWith(
+        bodyLarge: GoogleFonts.inter(color: AppColors.textPrimary),
+        bodyMedium: GoogleFonts.inter(color: AppColors.textPrimary),
+        bodySmall: GoogleFonts.inter(color: AppColors.textSecondary),
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.background,
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: false,
-        titleTextStyle: GoogleFonts.inter(
+        titleTextStyle: GoogleFonts.outfit(
           color: AppColors.textPrimary,
-          fontSize: 20,
+          fontSize: 22,
           fontWeight: FontWeight.bold,
         ),
         iconTheme: const IconThemeData(color: AppColors.textPrimary),

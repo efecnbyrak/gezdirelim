@@ -1,9 +1,12 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gezdirelim/core/app_colors.dart';
 import 'package:gezdirelim/features/profile/presentation/profile_provider.dart';
 import 'package:gezdirelim/features/profile/presentation/settings_screen.dart';
 import 'package:gezdirelim/features/profile/presentation/edit_profile_screen.dart';
+import 'package:gezdirelim/features/profile/presentation/achievements_screen.dart';
+import 'package:gezdirelim/features/profile/presentation/statistics_screen.dart';
+import 'package:gezdirelim/features/profile/presentation/help_screen.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'dart:io';
 
@@ -71,10 +74,10 @@ class ProfileScreen extends ConsumerWidget {
                             children: [
                               const Icon(LucideIcons.mapPin, size: 12, color: AppColors.ciniMavisi),
                               const SizedBox(width: 4),
-                              Text(
-                                profile.city,
-                                style: const TextStyle(color: AppColors.ciniMavisi, fontSize: 12, fontWeight: FontWeight.w500),
-                              ),
+                                Text(
+                                  '${profile.city}${profile.district.isNotEmpty ? ', ${profile.district}' : ''}',
+                                  style: const TextStyle(color: AppColors.ciniMavisi, fontSize: 12, fontWeight: FontWeight.w500),
+                                ),
                             ],
                           ),
                         ],
@@ -259,11 +262,27 @@ class ProfileScreen extends ConsumerWidget {
   Widget _buildDashboardItem(BuildContext context, String title, IconData icon, Color color, String subtitle) {
     return InkWell(
       onTap: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('$title açılıyor...'),
-          ),
-        );
+        Widget screen;
+        switch (title) {
+          case 'Aktif Rotalar':
+            // Rotalarım sekmesine yönlendirme yapılabilir ama şimdilik kendi içinde kalsın
+            // veya ana navigasyonda index değiştirilebilir.
+            // Şimdilik sadece bir mesaj gösterelim veya Rotalarım ekranına gitsin.
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Rotalarım sekmesine geçiş yapın')));
+            return;
+          case 'Başarılar':
+            screen = const AchievementsScreen();
+            break;
+          case 'İstatistikler':
+            screen = const StatisticsScreen();
+            break;
+          case 'Yardım':
+            screen = const HelpScreen();
+            break;
+          default:
+            return;
+        }
+        Navigator.push(context, MaterialPageRoute(builder: (_) => screen));
       },
       borderRadius: BorderRadius.circular(20),
       child: Container(

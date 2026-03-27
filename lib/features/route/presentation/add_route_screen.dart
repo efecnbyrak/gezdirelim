@@ -15,17 +15,15 @@ class AddRouteScreen extends ConsumerStatefulWidget {
 }
 
 class _AddRouteScreenState extends ConsumerState<AddRouteScreen> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+  int _selectedTabIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
     super.dispose();
   }
 
@@ -39,12 +37,9 @@ class _AddRouteScreenState extends ConsumerState<AddRouteScreen> with SingleTick
       appBar: AppBar(
         title: const Text('Rotalarım'),
         actions: [
-          // Sadece 'Özel' sekmesinde gösterilebilir ya da direkt burada bırakılabilir.
-          // Kullanıcı tıkladığında hep "Özel" klasörüne eklenir.
           IconButton(
             onPressed: () {
-              // Rota eklenince otomatik Özel sekmesine (index 0) geçiş yapalım
-              _tabController.animateTo(0);
+              setState(() => _selectedTabIndex = 0);
               _showAddRouteDialog(context, notifier);
             },
             icon: Container(
@@ -57,20 +52,16 @@ class _AddRouteScreenState extends ConsumerState<AddRouteScreen> with SingleTick
             ),
           ),
         ],
-        bottom: TabBar(
-          controller: _tabController,
-          labelColor: AppColors.ciniMavisi,
-          unselectedLabelColor: AppColors.textSecondary,
-          indicatorColor: AppColors.ciniMavisi,
-          tabs: const [
-            Tab(text: 'Özel'),
-            Tab(text: 'Hazır'),
-          ],
-        ),
       ),
-      body: TabBarView(
-        controller: _tabController,
+      body: Column(
         children: [
+          // Özel ve Hazır Seçici (Pill Style)
+          _buildPillTabSelector(),
+          
+          Expanded(
+            child: IndexedStack(
+              index: _selectedTabIndex,
+              children: [
           // 1. Sekme: Özel Rotalar (Senin Eklediklerin)
           routeState.isLoading
               ? const Center(child: CircularProgressIndicator(color: AppColors.ciniMavisi))
@@ -114,10 +105,83 @@ class _AddRouteScreenState extends ConsumerState<AddRouteScreen> with SingleTick
                     ),
                   ],
                 ),
-          
-          // 2. Sekme: Hazır Rotalar
-          _buildPredefinedRoutesTab(),
+                _buildPredefinedRoutesTab(),
+              ],
+            ),
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildPillTabSelector() {
+    return Container(
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.surfaceBorder, width: 0.5),
+      ),
+      child: Row(
+        children: [
+          _buildPillTab(
+            title: 'Özel',
+            icon: LucideIcons.user,
+            isSelected: _selectedTabIndex == 0,
+            onTap: () => setState(() => _selectedTabIndex = 0),
+          ),
+          const SizedBox(width: 4),
+          _buildPillTab(
+            title: 'Hazır',
+            icon: LucideIcons.layers,
+            isSelected: _selectedTabIndex == 1,
+            onTap: () => setState(() => _selectedTabIndex = 1),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPillTab({
+    required String title,
+    required IconData icon,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          decoration: BoxDecoration(
+            color: isSelected ? AppColors.ciniMavisi : Colors.transparent,
+            borderRadius: BorderRadius.circular(11),
+            boxShadow: isSelected
+                ? [BoxShadow(color: AppColors.ciniMavisi.withOpacity(0.3), blurRadius: 8)]
+                : null,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 16,
+                color: isSelected ? Colors.white : AppColors.textSecondary,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                  color: isSelected ? Colors.white : AppColors.textSecondary,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -365,6 +429,24 @@ class _AddRouteScreenState extends ConsumerState<AddRouteScreen> with SingleTick
                   ],
                 ),
               ),
+              // Favorilere Ekle / Sil Butonu (Yeri burası veya üst köşe olabilir)
+              IconButton(
+                onPressed: () {
+                  // Favorilere ekleme mantığı
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('"${route.name}" favorilere eklendi')),
+                  );
+                },
+                icon: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppColors.mercanKirmizi.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Icon(LucideIcons.heart, size: 16, color: AppColors.mercanKirmizi),
+                ),
+              ),
+              const SizedBox(width: 4),
               // Rota silme butonu
               IconButton(
                 onPressed: () => _confirmDeleteRoute(context, route, notifier),

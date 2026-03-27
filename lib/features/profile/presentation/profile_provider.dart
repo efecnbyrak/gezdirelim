@@ -8,6 +8,7 @@ class ProfileState {
   final String email;
   final String bio;
   final String city;
+  final String district;
   final String photoPath;
   final int routeCount;
   final int favoriteCount;
@@ -22,6 +23,7 @@ class ProfileState {
     this.email = '',
     this.bio = '',
     this.city = '',
+    this.district = '',
     this.photoPath = '',
     this.routeCount = 0,
     this.favoriteCount = 0,
@@ -37,6 +39,7 @@ class ProfileState {
     String? email,
     String? bio,
     String? city,
+    String? district,
     String? photoPath,
     int? routeCount,
     int? favoriteCount,
@@ -51,6 +54,7 @@ class ProfileState {
       email: email ?? this.email,
       bio: bio ?? this.bio,
       city: city ?? this.city,
+      district: district ?? this.district,
       photoPath: photoPath ?? this.photoPath,
       routeCount: routeCount ?? this.routeCount,
       favoriteCount: favoriteCount ?? this.favoriteCount,
@@ -84,6 +88,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
           email: userData['email'] as String,
           bio: userData['bio'] as String? ?? '',
           city: userData['city'] as String? ?? '',
+          district: userData['district'] as String? ?? '',
           photoPath: userData['photo_path'] as String? ?? '',
           routeCount: routeCount,
           favoriteCount: favoriteCount,
@@ -96,6 +101,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
           'email': 'gezgin@gezdirelim.com',
           'bio': 'Dünyayı keşfetmeyi seviyorum',
           'city': 'İstanbul',
+          'district': 'Fatih',
           'photo_path': '',
           'created_at': DateTime.now().toIso8601String(),
         });
@@ -105,6 +111,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
           email: 'gezgin@gezdirelim.com',
           bio: 'Dünyayı keşfetmeyi seviyorum',
           city: 'İstanbul',
+          district: 'Fatih',
           routeCount: routeCount,
           favoriteCount: favoriteCount,
           isLoading: false,
@@ -120,6 +127,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     String? email,
     String? bio,
     String? city,
+    String? district,
   }) async {
     if (state.userId == null) return;
     final updates = <String, dynamic>{};
@@ -127,6 +135,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     if (email != null) updates['email'] = email;
     if (bio != null) updates['bio'] = bio;
     if (city != null) updates['city'] = city;
+    if (district != null) updates['district'] = district;
 
     await _db.updateUser(state.userId!, updates);
     state = state.copyWith(
@@ -134,6 +143,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       email: email ?? state.email,
       bio: bio ?? state.bio,
       city: city ?? state.city,
+      district: district ?? state.district,
     );
   }
 

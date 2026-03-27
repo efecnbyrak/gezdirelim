@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gezdirelim/core/app_colors.dart';
 import 'package:gezdirelim/core/common_widgets.dart';
@@ -16,19 +16,6 @@ class FavoritesScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Favorilerim'),
-        actions: [
-          IconButton(
-            onPressed: () => _showAddFavoriteDialog(context, notifier, favState.selectedTab),
-            icon: Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: AppColors.mercanKirmizi.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Icon(LucideIcons.plus, color: AppColors.mercanKirmizi, size: 20),
-            ),
-          ),
-        ],
       ),
       body: Column(
         children: [
@@ -286,78 +273,4 @@ class FavoritesScreen extends ConsumerWidget {
     );
   }
 
-  void _showAddFavoriteDialog(BuildContext context, FavoritesNotifier notifier, int selectedTab) {
-    final titleController = TextEditingController();
-    final subtitleController = TextEditingController();
-    final type = selectedTab == 0 ? 'place' : 'route';
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: AppColors.osmanliAltini.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Icon(
-                selectedTab == 0 ? LucideIcons.mapPin : LucideIcons.navigation,
-                color: AppColors.osmanliAltini,
-                size: 20,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Text(
-              selectedTab == 0 ? 'Yer Ekle' : 'Rota Ekle',
-              style: const TextStyle(fontSize: 17),
-            ),
-          ],
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: titleController,
-              autofocus: true,
-              style: const TextStyle(color: AppColors.textPrimary),
-              decoration: InputDecoration(
-                hintText: selectedTab == 0 ? 'Yer adı' : 'Rota adı',
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: subtitleController,
-              style: const TextStyle(color: AppColors.textPrimary),
-              decoration: InputDecoration(
-                hintText: selectedTab == 0 ? 'Şehir' : 'Açıklama',
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('İptal', style: TextStyle(color: AppColors.textSecondary)),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (titleController.text.isNotEmpty) {
-                notifier.addFavorite(
-                  type: type,
-                  title: titleController.text,
-                  subtitle: subtitleController.text,
-                );
-                Navigator.pop(context);
-              }
-            },
-            child: const Text('Ekle'),
-          ),
-        ],
-      ),
-    );
-  }
 }
