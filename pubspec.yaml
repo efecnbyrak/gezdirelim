@@ -1,0 +1,55 @@
+name: gezdirelim
+description: "Türkiye'yi keşfet - Gezdirelim Mobil Uygulaması"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
+  lucide_icons: 0.257.0
+  flutter_riverpod: ^2.5.1
+  flutter_map: ^6.1.0
+  latlong2: ^0.9.1
+  image_picker: ^1.0.7
+  google_maps_flutter: ^2.16.0
+  # firebase_core: ^3.10.1
+  # firebase_auth: ^5.4.1
+  # cloud_firestore: ^5.6.1
+  supabase_flutter: ^2.6.0
+  url_launcher: ^6.2.5
+  permission_handler: ^11.3.1
+  intl: ^0.20.2
+  cached_network_image: ^3.4.1
+  flutter_dotenv: ^5.1.0
+  shared_preferences: ^2.3.2
+  flutter_localizations:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter:
+  uses-material-design: true
+
+  # Assets Configuration
+  assets:
+    - .env
+    - assets/images/
+    - assets/images/icons/
+
+# Launcher Icons Configuration
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/icons/logo.png"
+  min_sdk_android: 21 # android min sdk min:21, we are using 21 or higher

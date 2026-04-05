@@ -1,0 +1,81 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# VS Code (opsiyonel ignore - genelde tutulur ama safe)
+.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+build/
+/coverage/
+
+# 🔥 CRITICAL (Flutter + Android build artifacts)
+**/build/
+android/**/build/
+android/app/build/
+android/app/intermediates/
+android/app/.cxx/
+android/app/.externalNativeBuild/
+android/**/gradle/
+**/android_broken_backup/
+
+# APK / AAB outputs (DO NOT COMMIT)
+*.apk
+*.aab
+
+# Gradle
+.gradle/
+**/gradle-wrapper.jar
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio build outputs
+/android/app/debug/
+/android/app/profile/
+/android/app/release/
+/android/build/
+/android/.gradle/
+
+# Environment configurations
+config.json
+.env
+.env.*
+
+# Native / heavy binaries (CRITICAL FIX FOR YOUR ERROR)
+*.so
+*.dex
+*.o
+*.a
+
+# iOS (Flutter default safety)
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
